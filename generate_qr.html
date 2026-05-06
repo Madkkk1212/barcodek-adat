@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nusantara QR Code Generator - Premium Brand Asset</title>
-    
+
     <!-- Google Fonts: Cinzel & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- QRCode JS Library via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
@@ -25,7 +28,7 @@
             --espresso-dark: #120A05;
             --cream-soft: #F5E8D3;
             --warm-white: #FFF9F2;
-            
+
             --glass-bg: rgba(36, 20, 11, 0.75);
             --glass-border: rgba(200, 155, 60, 0.25);
             --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
@@ -61,8 +64,18 @@
             filter: blur(150px);
             opacity: 0.15;
         }
-        .glow-1 { top: -20%; left: -10%; background: var(--gold-luxury); }
-        .glow-2 { bottom: -20%; right: -10%; background: #6e3e1e; }
+
+        .glow-1 {
+            top: -20%;
+            left: -10%;
+            background: var(--gold-luxury);
+        }
+
+        .glow-2 {
+            bottom: -20%;
+            right: -10%;
+            background: #6e3e1e;
+        }
 
         /* Kawung Batik Pattern Backdrop */
         .batik-overlay {
@@ -273,7 +286,7 @@
             padding: 20px;
             background: var(--warm-white);
             border-radius: 28px;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -293,7 +306,10 @@
             position: absolute;
             background: rgba(36, 20, 11, 0.9);
             border-radius: 28px;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -302,10 +318,12 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
+
         .preview-loading.active {
             opacity: 1;
             visibility: visible;
         }
+
         .loading-spinner {
             width: 45px;
             height: 45px;
@@ -317,7 +335,8 @@
         }
 
         canvas {
-            display: none; /* hidden raw rendering canvas */
+            display: none;
+            /* hidden raw rendering canvas */
         }
 
         .rendered-image {
@@ -353,20 +372,26 @@
             border-radius: 12px;
             font-size: 13px;
             color: var(--warm-white);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 999;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .toast.show { bottom: 40px; }
+
+        .toast.show {
+            bottom: 40px;
+        }
 
         @keyframes spin {
-            100% { transform: rotate(360deg); }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="ambient-glow glow-1"></div>
@@ -374,7 +399,7 @@
     <div class="batik-overlay"></div>
 
     <div class="generator-container">
-        
+
         <!-- LEFT PANEL - CONTROLS -->
         <section class="controls-section">
             <div class="header-area">
@@ -385,7 +410,8 @@
             <!-- Link URL Input -->
             <div class="input-group">
                 <label for="link-input"><i class="fa-solid fa-link"></i> Link Verifikasi / URL</label>
-                <input type="text" id="link-input" value="https://barcodek-adat.vercel.app/" placeholder="https://example.com">
+                <input type="text" id="link-input" value="https://barcodek-adat.vercel.app/"
+                    placeholder="https://example.com">
             </div>
 
             <!-- Color Palette Controls -->
@@ -430,9 +456,9 @@
                 <!-- Final image drawn with logo and displayed to prevent any canvas issues -->
                 <img id="qr-img" class="rendered-image" alt="QR Code Preview">
             </div>
-            
+
             <div class="logo-indicator">
-                <i class="fa-solid fa-circle-check"></i> Logo `logo.png` terdeteksi di tengah otomatis
+                <i class="fa-solid fa-circle-check"></i> Logo `logo barcode.png` terdeteksi di tengah otomatis
             </div>
         </section>
 
@@ -485,14 +511,14 @@
             // Premium Logo Generation Logic
             function generateQRCode() {
                 loader.classList.add('active');
-                
+
                 const url = linkInput.value || "https://barcodek-adat.vercel.app/";
                 const darkColor = colorDarkInput.value;
                 const lightColor = colorLightInput.value;
 
                 // 1. Generate core QR Code matrix onto the hidden canvas at high-resolution
                 const size = 1500; // 1500px for excellent print details!
-                
+
                 QRCode.toCanvas(qrCanvas, url, {
                     width: size,
                     margin: 2,
@@ -510,10 +536,10 @@
 
                     // 2. Load the brand logo image
                     const logoImg = new Image();
-                    logoImg.src = './logo.png';
+                    logoImg.src = './logo barcode.png';
                     logoImg.onload = () => {
                         const ctx = qrCanvas.getContext('2d');
-                        
+
                         // 3. Draw a premium logo frame in the center
                         const logoSize = size * 0.22; // 22% of QR size is perfect for Error Correction level 'H'
                         const logoX = (size - logoSize) / 2;
@@ -523,7 +549,7 @@
                         ctx.fillStyle = '#FFFFFF';
                         ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
                         ctx.shadowBlur = 15;
-                        
+
                         // Draw rounded square background card for logo
                         const radius = logoSize * 0.25;
                         ctx.beginPath();
@@ -587,4 +613,5 @@
         });
     </script>
 </body>
+
 </html>

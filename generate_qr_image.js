@@ -12,7 +12,7 @@ async function run() {
     try {
         const tempQrPath = path.join(__dirname, 'temp_qr.png');
         const finalQrPath = path.join(__dirname, 'qrcode.png');
-        const logoPath = path.join(__dirname, 'logo.png');
+        const logoPath = path.join(__dirname, 'logo barcode.png');
 
         if (!fs.existsSync(logoPath)) {
             throw new Error(`Logo file not found at: ${logoPath}`);
@@ -34,24 +34,9 @@ async function run() {
         const qrImg = await Jimp.read(tempQrPath);
         const logoImg = await Jimp.read(logoPath);
 
-        // Center card size is 22.5% of the QR Code size (450px for a 2000px QR Code)
-        const logoCardSize = Math.round(QR_SIZE * 0.225);
-        
-        console.log(`Creating modern square card in center (size: ${logoCardSize}px) with elegant gold border...`);
-        // Create a gold backing card
-        const logoCard = new Jimp({ width: logoCardSize, height: logoCardSize, color: 0xC89B3CFF });
-        
-        // Create a cream inner card with a 6px gold border
-        const borderWidth = 6;
-        const innerCardSize = logoCardSize - (borderWidth * 2);
-        const innerCard = new Jimp({ width: innerCardSize, height: innerCardSize, color: 0xFFF9F2FF });
-
-        // Composite cream inner onto gold card
-        logoCard.composite(innerCard, borderWidth, borderWidth);
-
         // RESIZE LOGO PROPORTIONALLY (ANTI-GEPENG / NO SQUASHING)
-        // Set maximum dimension inside the card to 80% of the inner card size
-        const maxLogoDimension = Math.round(innerCardSize * 0.85); 
+        // Set maximum dimension inside the card to 580px (Larger Logo!)
+        const maxLogoDimension = 580;
         const wOrig = logoImg.bitmap.width;
         const hOrig = logoImg.bitmap.height;
 
@@ -60,25 +45,32 @@ async function run() {
         const logoW = Math.round(wOrig * scale);
         const logoH = Math.round(hOrig * scale);
 
-        console.log(`Original logo dimension: ${wOrig}x${hOrig}px (Aspect Ratio: ${(wOrig/hOrig).toFixed(2)})`);
+        console.log(`Original logo dimension: ${wOrig}x${hOrig}px (Aspect Ratio: ${(wOrig / hOrig).toFixed(2)})`);
         console.log(`Proportional resized dimension (Anti-Gepeng): ${logoW}x${logoH}px`);
 
         // Perform clean proportional resize
         logoImg.resize({ w: logoW, h: logoH });
 
-        // Center the proportionally resized logo inside the card
-        const logoX = (logoCardSize - logoW) / 2;
-        const logoY = (logoCardSize - logoH) / 2;
-        logoCard.composite(logoImg, logoX, logoY);
+        // Create a borderless, seamless card of background color to act as a cutout quiet zone
+        // This makes the cutout invisible so the logo merges organically directly into the barcode
+        const padding = 24; // clean breathing room from modules
+        const cutoutW = logoW + (padding * 2);
+        const cutoutH = logoH + (padding * 2);
+        console.log(`Creating borderless blending card in center (cutout size: ${cutoutW}x${cutoutH}px)...`);
+        
+        const logoCard = new Jimp({ width: cutoutW, height: cutoutH, color: 0xFFF9F2FF });
 
-        // Composite the finished center logo card onto the exact center of the standard QR Code
-        const cardX = (QR_SIZE - logoCardSize) / 2;
-        const cardY = (QR_SIZE - logoCardSize) / 2;
+        // Center the proportionally resized logo inside the borderless cutout card
+        logoCard.composite(logoImg, padding, padding);
+
+        // Composite the finished borderless logo card onto the exact center of the standard QR Code
+        const cardX = (QR_SIZE - cutoutW) / 2;
+        const cardY = (QR_SIZE - cutoutH) / 2;
         qrImg.composite(logoCard, cardX, cardY);
 
         // Save final high-res branded QR code
         await qrImg.write(finalQrPath);
-        console.log(`Successfully generated and saved premium classic QR code to: ${finalQrPath}`);
+        console.log(`Successfully generated and saved premium classic borderless QR code to: ${finalQrPath}`);
 
         // Clean up temp file
         if (fs.existsSync(tempQrPath)) {
