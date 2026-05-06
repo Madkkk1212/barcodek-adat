@@ -34,6 +34,22 @@ async function run() {
         const qrImg = await Jimp.read(tempQrPath);
         const logoImg = await Jimp.read(logoPath);
 
+        // REMOVE WHITE BACKGROUND FROM LOGO AUTOMATICALLY
+        console.log('Removing white background from brand logo to make it transparent...');
+        for (let y = 0; y < logoImg.bitmap.height; y++) {
+            for (let x = 0; x < logoImg.bitmap.width; x++) {
+                const color = logoImg.getPixelColor(x, y);
+                const r = (color >> 24) & 0xFF;
+                const g = (color >> 16) & 0xFF;
+                const b = (color >> 8) & 0xFF;
+
+                // If the pixel is white or very close to white, make it fully transparent
+                if (r > 240 && g > 240 && b > 240) {
+                    logoImg.setPixelColor(0, x, y);
+                }
+            }
+        }
+
         // RESIZE LOGO PROPORTIONALLY (ANTI-GEPENG / NO SQUASHING)
         // Set maximum dimension inside the card to 580px (Larger Logo!)
         const maxLogoDimension = 580;
