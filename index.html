@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kostum Adat Nusantara - Premium Bio Link</title>
+    
+    <!-- Meta Tags for SEO & Social Media -->
+    <meta name="description" content="Koleksi busana adat nusantara premium & luxury fashion heritage Indonesia. Hubungi kami untuk penyewaan, pembuatan, dan kolaborasi seni budaya.">
+    <meta name="keywords" content="kostum adat, baju adat premium, luxury nusantara, kebaya luxury, songket premium, wedding adat jambi, pakaian adat indonesia">
+    <meta name="author" content="Kostum Adat Nusantara">
+    <meta property="og:title" content="Kostum Adat Nusantara - Premium Bio Link">
+    <meta property="og:description" content="Koleksi busana adat nusantara premium & luxury fashion heritage Indonesia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kostum-adatnusantara.vercel.app">
+    
+    <!-- Google Fonts: Cinzel (Luxury Heading) & Poppins (Modern Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & CSS VARIABLES
+           ========================================================================== */
+        :root {
+            /* Palette Color */
+            --gold-luxury: #C89B3C;
+            --gold-light: #F5E8D3;
+            --gold-gradient: linear-gradient(135deg, #FFEAA5 0%, #C89B3C 50%, #8E651B 100%);
+            --gold-glow: rgba(200, 155, 60, 0.35);
+            --dark-brown: #3B2416;
+            --espresso-brown: #24140B;
+            --espresso-dark: #120A05;
+            --cream-soft: #F5E8D3;
+            --warm-white: #FFF9F2;
+            --white-alpha: rgba(255, 249, 242, 0.9);
+            
+            /* Glassmorphism Settings */
+            --glass-bg: rgba(36, 20, 11, 0.65);
+            --glass-border: rgba(200, 155, 60, 0.25);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            --glass-glow-shadow: 0 0 25px rgba(200, 155, 60, 0.15);
+            
+            /* Safe Areas for Notch Phones */
+            --safe-top: env(safe-area-inset-top, 20px);
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: -webkit-fill-available; /* Fix for iOS viewport height */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--espresso-dark);
+            color: var(--cream-soft);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--espresso-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-luxury);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-light);
+        }
+
+        /* ==========================================================================
+           2. PREMIUM VISUAL BACKDROP & EFFECTS
+           ========================================================================== */
+        
+        /* Ambient Warm Lights */
+        .ambient-glow {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(120px);
+            opacity: 0.18;
+            animation: pulseGlow 10s infinite alternate ease-in-out;
+        }
+        .glow-1 {
+            top: -10%;
+            left: -10%;
+            background: var(--gold-luxury);
+        }
+        .glow-2 {
+            bottom: 10%;
+            right: -10%;
+            background: #6e3e1e;
+        }
+        .glow-3 {
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--espresso-brown);
+            width: 80vw;
+            height: 80vw;
+            opacity: 0.12;
+        }
+
+        /* Subtle Vignette Layer */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Background Canvas for Floating Gold Particles */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Kawung Batik Pattern Overlay */
+        .batik-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.08;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpattern id='kawung' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='40' cy='40' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='80' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='80' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='40' cy='40' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='80' cy='0' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='0' cy='80' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='80' cy='80' r='5' fill='%23C89B3C'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23kawung)'/%3E%3C/svg%3E");
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Decorative Traditional Corner Ornaments (Visible on Desktop Backdrops) */
+        .screen-corner-ornament {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            opacity: 0.15;
+            z-index: 3;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .ornament-tl { top: 30px; left: 30px; border-top: 3px double var(--gold-luxury); border-left: 3px double var(--gold-luxury); }
+        .ornament-tr { top: 30px; right: 30px; border-top: 3px double var(--gold-luxury); border-right: 3px double var(--gold-luxury); }
+        .ornament-bl { bottom: 30px; left: 30px; border-bottom: 3px double var(--gold-luxury); border-left: 3px double var(--gold-luxury); }
+        .ornament-br { bottom: 30px; right: 30px; border-bottom: 3px double var(--gold-luxury); border-right: 3px double var(--gold-luxury); }
+
+        /* ==========================================================================
+           3. CONTAINER DESIGN (MOBILE FIRST PERSPECTIVE)
+           ========================================================================== */
+        
+        .app-wrapper {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            background: rgba(18, 10, 5, 0.72);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(200, 155, 60, 0.18);
+            border-right: 1px solid rgba(200, 155, 60, 0.18);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+            padding: calc(var(--safe-top) + 30px) 24px calc(var(--safe-bottom) + 30px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        /* Container Corner Elements for Authentic Indonesian Vibe */
+        .app-inner-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 1px solid rgba(200, 155, 60, 0.08);
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 16px;
+        }
+
+        /* Traditional Tumpal/Batik Band Decorators */
+        .batik-band {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.22;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='20' viewBox='0 0 30 20'%3E%3Cpath d='M0,20 L15,0 L30,20 L15,10 Z' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='15' cy='15' r='2' fill='%23C89B3C'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+        .batik-band-top {
+            top: 20px;
+            border-bottom: 1px double rgba(200, 155, 60, 0.2);
+        }
+        .batik-band-bottom {
+            bottom: 20px;
+            transform: scaleY(-1);
+            border-bottom: 1px double rgba(200, 155, 60, 0.2);
+        }
+
+        /* ==========================================================================
+           4. PRELOADER & INTRO LOADING
+           ========================================================================== */
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--espresso-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-100%);
+        }
+        .loader-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .loader-logo-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            animation: floatLogo 3s infinite ease-in-out;
+        }
+        .loader-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top-color: var(--gold-luxury);
+            border-bottom-color: var(--gold-luxury);
+            border-radius: 50%;
+            animation: spinSpinner 2s linear infinite;
+        }
+        .loader-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            background-color: #fff;
+            padding: 10px;
+        }
+        .loader-text {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-luxury);
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeUpIn 0.8s forwards 0.3s;
+        }
+        .loader-bar {
+            width: 120px;
+            height: 1.5px;
+            background: rgba(200, 155, 60, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: var(--gold-gradient);
+            animation: fillProgress 1.4s forwards cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+
+        /* ==========================================================================
+           5. HEADER & PROFILE SECTION
+           ========================================================================== */
+        
+        .header-section {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealUp 1s forwards 1.2s;
+        }
+
+        /* Avatar with Glowing Borders */
+        .avatar-container {
+            position: relative;
+            width: 125px;
+            height: 125px;
+            margin: 0 auto 20px;
+        }
+        .avatar-glow-ring {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            padding: 2px;
+            animation: pulseGlowCircle 3s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+        .avatar-glow-ring-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--espresso-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-image-wrapper {
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            border-radius: 50%;
+            background: var(--espresso-brown);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--gold-luxury);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .brand-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #fff;
+            padding: 8px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+        }
+
+        /* Verification Badge */
+        .badge-verified {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 28px;
+            height: 28px;
+            background: var(--gold-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--espresso-dark);
+            font-size: 12px;
+            border: 2px solid var(--espresso-dark);
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            animation: scalePulse 2s infinite ease-in-out;
+        }
+
+        /* Typography Heading & Subheading */
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.3;
+            margin-bottom: 6px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(200, 155, 60, 0.1);
+        }
+        .brand-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--cream-soft);
+            opacity: 0.85;
+            margin-bottom: 20px;
+        }
+
+        /* Luxury Decorative Divider */
+        .luxury-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 220px;
+            margin: 0 auto;
+        }
+        .luxury-divider .line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-luxury), transparent);
+            flex: 1;
+        }
+        .luxury-divider .ornament {
+            color: var(--gold-luxury);
+            font-size: 12px;
+            text-shadow: 0 0 8px var(--gold-glow);
+            animation: scalePulse 2.5s infinite ease-in-out;
+        }
+
+        /* ==========================================================================
+           6. SOCIAL ICONS CAROUSEL / ROW
+           ========================================================================== */
+        
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealUp 1s forwards 1.4s;
+        }
+        .social-icon-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cream-soft);
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+        }
+        .social-icon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+        .social-icon-btn:hover {
+            color: var(--espresso-dark);
+            background: var(--gold-gradient);
+            border-color: var(--gold-luxury);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(200, 155, 60, 0.3);
+        }
+        .social-icon-btn:hover::before {
+            left: 100%;
+        }
+
+        /* ==========================================================================
+           7. PREMIUM INTERACTIVE BUTTONS SECTION
+           ========================================================================== */
+        
+        .links-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealUp 1s forwards 1.6s;
+        }
+
+        /* Button Main Style */
+        .premium-btn {
+            width: 100%;
+            min-height: 64px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--warm-white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        /* Shiny Sheen Effect */
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 243, 209, 0.25), transparent);
+            transform: skewX(-30deg);
+            pointer-events: none;
+        }
+        .premium-btn:hover::before {
+            animation: shineSweep 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Inner Left Area (Icon & Title) */
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 2;
+        }
+        .btn-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(200, 155, 60, 0.12);
+            border: 1px solid rgba(200, 155, 60, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-luxury);
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .btn-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--warm-white);
+            transition: all 0.4s ease;
+        }
+        .btn-subtitle {
+            font-size: 11px;
+            color: var(--cream-soft);
+            opacity: 0.65;
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        /* Inner Right Area (Arrow Chevron) */
+        .btn-arrow {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-luxury);
+            font-size: 12px;
+            opacity: 0.6;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2;
+        }
+
+        /* Hover States */
+        .premium-btn:hover {
+            transform: translateY(-4px) scale(1.015);
+            border-color: rgba(200, 155, 60, 0.65);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(200, 155, 60, 0.18);
+            background: rgba(59, 36, 22, 0.85);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 80 80'%3E%3Cpattern id='kawung' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='40' cy='40' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.2' stroke-opacity='0.08'/%3E%3Ccircle cx='0' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.2' stroke-opacity='0.08'/%3E%3Ccircle cx='80' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.2' stroke-opacity='0.08'/%3E%3Ccircle cx='0' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.2' stroke-opacity='0.08'/%3E%3Ccircle cx='80' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.2' stroke-opacity='0.08'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23kawung)'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+        .premium-btn:hover .btn-icon-wrapper {
+            background: var(--gold-gradient);
+            color: var(--espresso-dark);
+            transform: rotate(8deg);
+            box-shadow: 0 0 15px rgba(200, 155, 60, 0.4);
+            border-color: transparent;
+        }
+        .premium-btn:hover .btn-title {
+            color: var(--gold-luxury);
+            text-shadow: 0 0 8px rgba(200, 155, 60, 0.2);
+        }
+        .premium-btn:hover .btn-arrow {
+            transform: translateX(4px);
+            opacity: 1;
+            color: var(--gold-light);
+            text-shadow: 0 0 8px var(--gold-luxury);
+        }
+
+        /* Active click scale down */
+        .premium-btn:active {
+            transform: translateY(-1px) scale(0.995);
+        }
+
+        /* Specific Highlight Badge for WhatsApp (Most Popular) */
+        .badge-hot {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            background: var(--gold-gradient);
+            color: var(--espresso-dark);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 0 0 6px 6px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            z-index: 3;
+            animation: pulseGlow 1.5s infinite alternate ease-in-out;
+        }
+
+        /* Click Ripple Canvas Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleEffect 0.65s ease-out;
+            background: rgba(200, 155, 60, 0.35);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ==========================================================================
+           8. GALLERY ADDRESS CARD SECTION
+           ========================================================================== */
+        
+        .address-card {
+            width: 100%;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 24px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealUp 1s forwards 1.8s;
+            margin-bottom: 10px;
+            transition: all 0.4s ease;
+        }
+        .address-card:hover {
+            border-color: rgba(200, 155, 60, 0.45);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(200, 155, 60, 0.15);
+        }
+
+        /* Top-right subtle graphic motif inside address card */
+        .address-card::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 100px;
+            height: 100px;
+            opacity: 0.08;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,0 L60,30 L90,20 L75,45 L100,50 L75,55 L90,80 L60,70 L50,100 L40,70 L10,80 L25,55 L0,50 L25,45 L10,20 L40,30 Z' fill='none' stroke='%23C89B3C' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='12' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Cpolygon points='50,38 53,50 62,50 55,55 58,67 50,60 42,67 45,55 38,50 47,50' fill='%23C89B3C'/%3E%3C/svg%3E");
+            background-size: contain;
+            pointer-events: none;
+            transition: transform 0.8s ease, opacity 0.5s ease;
+        }
+        .address-card:hover::after {
+            transform: rotate(45deg);
+            opacity: 0.15;
+        }
+
+        .address-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .address-pin-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(200, 155, 60, 0.12);
+            border: 1px solid rgba(200, 155, 60, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-luxury);
+            font-size: 16px;
+            animation: pinPulse 2s infinite ease-in-out;
+        }
+        .address-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--gold-luxury);
+        }
+
+        .address-text-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--cream-soft);
+            opacity: 0.9;
+            font-weight: 300;
+            border-left: 2px solid rgba(200, 155, 60, 0.3);
+            padding-left: 14px;
+        }
+
+        /* Quick Action Row inside Address Card */
+        .address-action-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .addr-action-btn {
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid rgba(200, 155, 60, 0.25);
+            background: rgba(200, 155, 60, 0.05);
+            color: var(--warm-white);
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .addr-action-btn:hover {
+            background: rgba(200, 155, 60, 0.15);
+            border-color: var(--gold-luxury);
+            transform: translateY(-2px);
+            color: var(--gold-luxury);
+        }
+        .addr-action-btn:active {
+            transform: translateY(0);
+        }
+        .btn-primary-action {
+            background: var(--gold-gradient);
+            color: var(--espresso-dark);
+            border: none;
+            font-weight: 600;
+        }
+        .btn-primary-action:hover {
+            background: var(--gold-gradient);
+            color: var(--espresso-dark);
+            box-shadow: 0 5px 15px rgba(200, 155, 60, 0.3);
+            filter: brightness(1.1);
+        }
+
+        /* ==========================================================================
+           9. PREMIUM INTERACTIVE TOAST & FOOTER
+           ========================================================================== */
+        
+        /* Interactive Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            background: rgba(36, 20, 11, 0.9);
+            border: 1px solid var(--gold-luxury);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(200,155,60,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            opacity: 0;
+            max-width: 90%;
+            width: 320px;
+        }
+        .toast-notification.show {
+            bottom: 40px;
+            opacity: 1;
+        }
+        .toast-icon {
+            color: var(--gold-luxury);
+            font-size: 16px;
+        }
+        .toast-message {
+            color: var(--warm-white);
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        /* Custom Dynamic Background Light Sweep for whole container */
+        .app-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(200, 155, 60, 0.08), transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Footer Copyright */
+        .footer-section {
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+            padding-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: revealUp 0.8s forwards 2s;
+        }
+        .footer-logo {
+            width: 25px;
+            height: 25px;
+            opacity: 0.6;
+            animation: spinSpinner 8s linear infinite;
+        }
+        .footer-text {
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--cream-soft);
+            opacity: 0.5;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .footer-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--gold-luxury);
+            opacity: 0.7;
+        }
+
+        /* ==========================================================================
+           10. ANIMATION KEYFRAMES
+           ========================================================================== */
+        @keyframes pulseGlow {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.15; }
+            100% { transform: scale(1.15) rotate(18deg); opacity: 0.25; }
+        }
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes spinSpinner {
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fillProgress {
+            100% { width: 100%; }
+        }
+        @keyframes fadeUpIn {
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealUp {
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseGlowCircle {
+            0% { box-shadow: 0 0 10px rgba(200, 155, 60, 0.1), inset 0 0 5px rgba(200, 155, 60, 0.05); }
+            100% { box-shadow: 0 0 25px rgba(200, 155, 60, 0.4), inset 0 0 12px rgba(200, 155, 60, 0.2); }
+        }
+        @keyframes scalePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        @keyframes pinPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(200, 155, 60, 0)); }
+            50% { transform: scale(1.12); filter: drop-shadow(0 0 10px rgba(200, 155, 60, 0.4)); }
+        }
+        @keyframes shineSweep {
+            0% { left: -150%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+        }
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Media Queries for Desktop Enhanced Backdrops */
+        @media (min-width: 481px) {
+            body {
+                padding: 40px 0;
+                background-color: var(--espresso-dark);
+            }
+            .app-wrapper {
+                border-radius: 32px;
+                min-height: calc(100vh - 80px);
+                height: 840px;
+                max-height: 90vh;
+                border: 2px solid rgba(200, 155, 60, 0.25);
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(200, 155, 60, 0.1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .screen-corner-ornament {
+                display: none; /* Hide full screen borders on absolute mobile sizes */
+            }
+            .app-wrapper {
+                border-left: none;
+                border-right: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Backdrops -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+    <div class="vignette"></div>
+
+    <!-- Interactive Particle Background Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Traditional Kawung Motif Background -->
+    <div class="batik-overlay"></div>
+
+    <!-- Screen Corner Ornaments (Desktop Backdrop Beauty) -->
+    <div class="screen-corner-ornament ornament-tl"></div>
+    <div class="screen-corner-ornament ornament-tr"></div>
+    <div class="screen-corner-ornament ornament-bl"></div>
+    <div class="screen-corner-ornament ornament-br"></div>
+
+    <!-- ==========================================================================
+       PRELOADER OVERLAY
+       ========================================================================== -->
+    <div class="preloader" id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo-wrapper">
+                <div class="loader-spinner"></div>
+                <img class="loader-logo" src="./logo.png" alt="Loading Logo">
+            </div>
+            <div class="loader-text">Nusantara Heritage</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       MAIN MOBILE APPLICATION WRAPPER
+       ========================================================================== -->
+    <div class="app-wrapper">
+        <div class="app-inner-border"></div>
+        <div class="batik-band batik-band-top"></div>
+        <div class="batik-band batik-band-bottom"></div>
+
+        <!-- HEADER SECTION -->
+        <header class="header-section">
+            <div class="avatar-container">
+                <div class="avatar-glow-ring">
+                    <div class="avatar-glow-ring-inner"></div>
+                </div>
+                <div class="avatar-image-wrapper">
+                    <img src="./logo.png" alt="Kostum Adat Jambi Logo" class="brand-avatar-img">
+                </div>
+                <div class="badge-verified" title="Official Verified Account">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <h1 class="brand-title">Kostum Adat Jambi</h1>
+            <p class="brand-subtitle">Penyewaan & Pembuatan Busana Adat Premium</p>
+
+            <!-- Luxury Gold Divider -->
+            <div class="luxury-divider">
+                <span class="line"></span>
+                <span class="ornament"><i class="fa-solid fa-crown"></i></span>
+                <span class="line"></span>
+            </div>
+        </header>
+
+        <!-- SOCIAL ICON ROW -->
+        <nav class="social-row" aria-label="Media Sosial">
+            <a href="https://wa.me/6282323431676" target="_blank" rel="noopener" class="social-icon-btn" title="Chat WhatsApp" aria-label="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://instagram.com/kostum_adat_nusantara" target="_blank" rel="noopener" class="social-icon-btn" title="Kunjungi Instagram" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://kostum-adatnusantara.vercel.app" target="_blank" rel="noopener" class="social-icon-btn" title="Website Utama" aria-label="Website">
+                <i class="fa-solid fa-globe"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/KUNmJvMuSK61VfQH8" target="_blank" rel="noopener" class="social-icon-btn" title="Buka Google Maps" aria-label="Lokasi">
+                <i class="fa-solid fa-location-dot"></i>
+            </a>
+        </nav>
+
+        <!-- MAIN BIO LINK VERTICAL STACK -->
+        <main class="links-section">
+            
+            <!-- WhatsApp Link Button -->
+            <a href="https://wa.me/6282323431676?text=Halo%20Kostum%20Adat%20Nusantara,%20saya%20ingin%20tanya%20sewa%20baju%20adat..." 
+               target="_blank" rel="noopener" class="premium-btn ripple-trigger">
+                <span class="badge-hot">Fast Respon</span>
+                <div class="btn-left">
+                    <div class="btn-icon-wrapper">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="btn-text">
+                        <span class="btn-title">Tanya Admin CS</span>
+                        <span class="btn-subtitle">Hubungi cepat via WhatsApp</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Instagram Link Button -->
+            <a href="https://instagram.com/kostum_adat_nusantara" target="_blank" rel="noopener" class="premium-btn ripple-trigger">
+                <div class="btn-left">
+                    <div class="btn-icon-wrapper">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div class="btn-text">
+                        <span class="btn-title">Katalog Instagram</span>
+                        <span class="btn-subtitle">Koleksi busana adat terbaru</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Official Website Link Button -->
+            <a href="https://kostum-adatnusantara.vercel.app" target="_blank" rel="noopener" class="premium-btn ripple-trigger">
+                <div class="btn-left">
+                    <div class="btn-icon-wrapper">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="btn-text">
+                        <span class="btn-title">Website Resmi</span>
+                        <span class="btn-subtitle">Sistem sewa & katalog digital</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Google Maps Deep Link Button -->
+            <a href="https://maps.app.goo.gl/KUNmJvMuSK61VfQH8" target="_blank" rel="noopener" class="premium-btn ripple-trigger">
+                <div class="btn-left">
+                    <div class="btn-icon-wrapper">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div class="btn-text">
+                        <span class="btn-title">Rute Google Maps</span>
+                        <span class="btn-subtitle">Petunjuk arah langsung ke galeri</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- ADDRESS CARD -->
+            <section class="address-card" aria-labelledby="address-title">
+                <div class="address-header">
+                    <div class="address-pin-wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h2 class="address-card-title" id="address-title">Alamat Galeri Showroom</h2>
+                </div>
+                <div class="address-text-content" id="showroom-address">
+                    Perumahan Kreasi Pura Blok A No. 2, Jl. Penyangat, Jelutung, RT 33, Kota Jambi.
+                </div>
+                <div class="address-action-row">
+                    <button class="addr-action-btn" id="copy-address-btn" aria-label="Salin Alamat">
+                        <i class="fa-regular fa-copy"></i> Salin Alamat
+                    </button>
+                    <a href="https://maps.app.goo.gl/KUNmJvMuSK61VfQH8" 
+                       target="_blank" rel="noopener" class="addr-action-btn btn-primary-action" aria-label="Petunjuk Google Maps">
+                        <i class="fa-solid fa-compass"></i> Rute Galeri
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer-section">
+            <svg class="footer-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50,15 85,50 50,85 15,50" fill="none" stroke="#C89B3C" stroke-width="2" />
+                <circle cx="50" cy="50" r="10" fill="#C89B3C" />
+            </svg>
+            <span class="footer-text">Kostum Adat Nusantara © 2026</span>
+            <span class="footer-sub">Luxury Cultural Pride</span>
+        </footer>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-notification" id="copy-toast" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span class="toast-message">Alamat disalin ke clipboard!</span>
+    </div>
+
+    <!-- ==========================================================================
+       VANILLA JAVASCRIPT - LOGIC, PARTICLES, RIPPLE EFFECT
+       ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. PRELOADER ANIMATION
+            const preloader = document.getElementById('preloader');
+            const appWrapper = document.querySelector('.app-wrapper');
+            
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.classList.add('loaded');
+                    document.body.style.overflowY = 'auto';
+                }, 1300); // Elegant wait for luxury branding intro
+            });
+
+            // 2. CANVAS GOLD PARTICLES SYSTEM
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let particlesArray = [];
+            const numberOfParticles = 35; // Kept lightweight for optimized performance
+            
+            // Adjust canvas dimensions to viewports
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Particle Class Definition
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height + canvas.height; // Spawn below screen
+                    this.size = Math.random() * 2.8 + 0.6; // Small elegant dust
+                    this.speedY = -(Math.random() * 0.4 + 0.2); // Slow drift up
+                    this.speedX = Math.sin(Math.random() * 2) * 0.15; // Slow sway side-to-side
+                    this.alpha = Math.random() * 0.6 + 0.1;
+                    this.glow = Math.random() * 10 + 5;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    // Reset to bottom if drifted out of top
+                    if (this.y < -10) {
+                        this.y = canvas.height + 10;
+                        this.x = Math.random() * canvas.width;
+                    }
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.shadowBlur = this.glow;
+                    ctx.shadowColor = '#C89B3C';
+                    ctx.fillStyle = '#FFEAA5';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            // Populate particle array
+            function initParticles() {
+                particlesArray = [];
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particlesArray.push(new Particle());
+                }
+            }
+            initParticles();
+
+            // Interactive Dust Effect (Move slightly on Touch / Mouse movement)
+            let mouse = { x: null, y: null };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+            window.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0) {
+                    mouse.x = e.touches[0].clientX;
+                    mouse.y = e.touches[0].clientY;
+                }
+            });
+
+            // Particle Animation Loop
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    
+                    // Mouse micro interaction: drift away gently from pointer
+                    if (mouse.x && mouse.y) {
+                        let dx = particlesArray[i].x - mouse.x;
+                        let dy = particlesArray[i].y - mouse.y;
+                        let distance = Math.sqrt(dx*dx + dy*dy);
+                        if (distance < 120) {
+                            let forceDirectionX = dx / distance;
+                            let forceDirectionY = dy / distance;
+                            let force = (120 - distance) / 120; // stronger closer
+                            particlesArray[i].x += forceDirectionX * force * 1.5;
+                            particlesArray[i].y += forceDirectionY * force * 1.5;
+                        }
+                    }
+                    
+                    particlesArray[i].draw();
+                }
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // 3. PREMIUM RIPPLE INTERACTION EFFECT
+            const rippleButtons = document.querySelectorAll('.ripple-trigger');
+            
+            rippleButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const x = e.clientX - e.currentTarget.getBoundingClientRect().left;
+                    const y = e.clientY - e.currentTarget.getBoundingClientRect().top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 650);
+                });
+            });
+
+            // 4. COPY TO CLIPBOARD AND TOAST NOTIFICATION
+            const copyBtn = document.getElementById('copy-address-btn');
+            const toast = document.getElementById('copy-toast');
+            const addressText = document.getElementById('showroom-address').innerText;
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(addressText).then(() => {
+                    // Show custom toast notification
+                    toast.classList.add('show');
+                    
+                    // Button micro animation trigger
+                    copyBtn.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil Disalin`;
+                    copyBtn.style.borderColor = '#C89B3C';
+                    copyBtn.style.color = '#C89B3C';
+                    
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 2800);
+
+                    // Reset copy button after some time
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `<i class="fa-regular fa-copy"></i> Salin Alamat`;
+                        copyBtn.style.borderColor = 'rgba(200, 155, 60, 0.25)';
+                        copyBtn.style.color = 'var(--warm-white)';
+                    }, 3000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
