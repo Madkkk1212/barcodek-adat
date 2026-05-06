@@ -43,16 +43,16 @@ async function run() {
                 const g = (color >> 16) & 0xFF;
                 const b = (color >> 8) & 0xFF;
 
-                // If the pixel is white or very close to white, make it fully transparent
-                if (r > 240 && g > 240 && b > 240) {
+                // If the pixel is white or very close to white, make it fully transparent (Threshold 230 for clean edges)
+                if (r > 230 && g > 230 && b > 230) {
                     logoImg.setPixelColor(0, x, y);
                 }
             }
         }
 
         // RESIZE LOGO PROPORTIONALLY (ANTI-GEPENG / NO SQUASHING)
-        // Set maximum dimension inside the card to 580px (Larger Logo!)
-        const maxLogoDimension = 580;
+        // Set maximum dimension inside the card to 440px for perfect scannability and float look
+        const maxLogoDimension = 440;
         const wOrig = logoImg.bitmap.width;
         const hOrig = logoImg.bitmap.height;
 
@@ -67,26 +67,17 @@ async function run() {
         // Perform clean proportional resize
         logoImg.resize({ w: logoW, h: logoH });
 
-        // Create a borderless, seamless card of background color to act as a cutout quiet zone
-        // This makes the cutout invisible so the logo merges organically directly into the barcode
-        const padding = 24; // clean breathing room from modules
-        const cutoutW = logoW + (padding * 2);
-        const cutoutH = logoH + (padding * 2);
-        console.log(`Creating borderless blending card in center (cutout size: ${cutoutW}x${cutoutH}px)...`);
-        
-        const logoCard = new Jimp({ width: cutoutW, height: cutoutH, color: 0xFFF9F2FF });
-
-        // Center the proportionally resized logo inside the borderless cutout card
-        logoCard.composite(logoImg, padding, padding);
-
-        // Composite the finished borderless logo card onto the exact center of the standard QR Code
-        const cardX = (QR_SIZE - cutoutW) / 2;
-        const cardY = (QR_SIZE - cutoutH) / 2;
-        qrImg.composite(logoCard, cardX, cardY);
+        // COMPOSITE TRANSPARENT LOGO DIRECTLY ONTO QR CODE
+        // No backing card, no white box, and no empty cutout space! 
+        // The logo floats seamlessly and organically directly over the QR modules
+        console.log('Compositing transparent logo directly onto the QR code...');
+        const logoX = (QR_SIZE - logoW) / 2;
+        const logoY = (QR_SIZE - logoH) / 2;
+        qrImg.composite(logoImg, logoX, logoY);
 
         // Save final high-res branded QR code
         await qrImg.write(finalQrPath);
-        console.log(`Successfully generated and saved premium classic borderless QR code to: ${finalQrPath}`);
+        console.log(`Successfully generated and saved premium classic seamless floating QR code to: ${finalQrPath}`);
 
         // Clean up temp file
         if (fs.existsSync(tempQrPath)) {
