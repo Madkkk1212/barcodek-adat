@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nusantara QR Code Generator - Premium Brand Asset</title>
+    
+    <!-- Google Fonts: Cinzel & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QRCode JS Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <style>
+        :root {
+            --gold-luxury: #C89B3C;
+            --gold-light: #F5E8D3;
+            --gold-gradient: linear-gradient(135deg, #FFEAA5 0%, #C89B3C 50%, #8E651B 100%);
+            --espresso-brown: #24140B;
+            --espresso-dark: #120A05;
+            --cream-soft: #F5E8D3;
+            --warm-white: #FFF9F2;
+            
+            --glass-bg: rgba(36, 20, 11, 0.75);
+            --glass-border: rgba(200, 155, 60, 0.25);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--espresso-dark);
+            color: var(--cream-soft);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 30px 15px;
+        }
+
+        /* Ambient Backgrounds */
+        .ambient-glow {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(150px);
+            opacity: 0.15;
+        }
+        .glow-1 { top: -20%; left: -10%; background: var(--gold-luxury); }
+        .glow-2 { bottom: -20%; right: -10%; background: #6e3e1e; }
+
+        /* Kawung Batik Pattern Backdrop */
+        .batik-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpattern id='kawung' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='40' cy='40' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='80' cy='0' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='80' cy='80' r='38' fill='none' stroke='%23C89B3C' stroke-width='1.5'/%3E%3Ccircle cx='40' cy='40' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='80' cy='0' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='0' cy='80' r='5' fill='%23C89B3C'/%3E%3Ccircle cx='80' cy='80' r='5' fill='%23C89B3C'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23kawung)'/%3E%3C/svg%3E");
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Glass Card Container */
+        .generator-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow), 0 0 40px rgba(200, 155, 60, 0.1);
+            padding: 40px;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tumpal Border Accent */
+        .generator-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8'%3E%3Cpath d='M0,8 L8,0 L16,8 Z' fill='%23C89B3C'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+
+        @media (max-width: 768px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+                gap: 30px;
+            }
+        }
+
+        /* LEFT SIDE - Controls & Inputs */
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .header-area {
+            margin-bottom: 10px;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            color: var(--warm-white);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-luxury);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: rgba(18, 10, 5, 0.6);
+            border: 1px solid var(--glass-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--warm-white);
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--gold-luxury);
+            box-shadow: 0 0 12px rgba(200, 155, 60, 0.25);
+        }
+
+        .color-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .color-picker-wrapper {
+            background: rgba(18, 10, 5, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-picker-wrapper:hover {
+            border-color: rgba(200, 155, 60, 0.5);
+        }
+
+        input[type="color"] {
+            border: none;
+            background: none;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .color-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-name {
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .color-val {
+            font-size: 12px;
+            font-weight: 600;
+            font-family: monospace;
+            color: var(--gold-luxury);
+        }
+
+        .premium-btn {
+            background: var(--gold-gradient);
+            color: var(--espresso-dark);
+            border: none;
+            border-radius: 14px;
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 20px rgba(200, 155, 60, 0.2);
+            margin-top: 15px;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(200, 155, 60, 0.35);
+            filter: brightness(1.08);
+        }
+
+        .premium-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* RIGHT SIDE - Preview Frame */
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .qr-frame-outer {
+            padding: 20px;
+            background: var(--warm-white);
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 320px;
+            height: 320px;
+            transition: transform 0.4s ease;
+        }
+
+        .qr-frame-outer:hover {
+            transform: scale(1.03);
+        }
+
+        /* Loading Overlay */
+        .preview-loading {
+            position: absolute;
+            background: rgba(36, 20, 11, 0.9);
+            border-radius: 28px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .preview-loading.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .loading-spinner {
+            width: 45px;
+            height: 45px;
+            border: 3px solid transparent;
+            border-top-color: var(--gold-luxury);
+            border-bottom-color: var(--gold-luxury);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        canvas {
+            display: none; /* hidden raw rendering canvas */
+        }
+
+        .rendered-image {
+            max-width: 100%;
+            max-height: 100%;
+            width: 280px;
+            height: 280px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .logo-indicator {
+            font-size: 11px;
+            opacity: 0.65;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-indicator i {
+            color: #27ae60;
+        }
+
+        /* Subtle status toast */
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            border: 1px solid var(--gold-luxury);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: var(--warm-white);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.show { bottom: 40px; }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="batik-overlay"></div>
+
+    <div class="generator-container">
+        
+        <!-- LEFT PANEL - CONTROLS -->
+        <section class="controls-section">
+            <div class="header-area">
+                <h1 class="main-title">Barcode Generator</h1>
+                <p class="subtitle">Buat QR Code Premium dengan Logo Anda di Tengah</p>
+            </div>
+
+            <!-- Link URL Input -->
+            <div class="input-group">
+                <label for="link-input"><i class="fa-solid fa-link"></i> Link Verifikasi / URL</label>
+                <input type="text" id="link-input" value="https://barcodek-adat.vercel.app/" placeholder="https://example.com">
+            </div>
+
+            <!-- Color Palette Controls -->
+            <div class="color-controls">
+                <!-- Color 1: Dark Module Color -->
+                <div class="input-group">
+                    <label><i class="fa-solid fa-palette"></i> Warna QR Code</label>
+                    <div class="color-picker-wrapper" onclick="document.getElementById('color-dark').click();">
+                        <input type="color" id="color-dark" value="#24140B">
+                        <div class="color-info">
+                            <span class="color-name">Modul Gelap</span>
+                            <span class="color-val" id="val-dark">#24140B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color 2: Background Color -->
+                <div class="input-group">
+                    <label><i class="fa-solid fa-fill-drip"></i> Latar Belakang</label>
+                    <div class="color-picker-wrapper" onclick="document.getElementById('color-light').click();">
+                        <input type="color" id="color-light" value="#FFF9F2">
+                        <div class="color-info">
+                            <span class="color-name">Latar Terang</span>
+                            <span class="color-val" id="val-light">#FFF9F2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <button class="premium-btn" id="download-btn">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Unduh QR Code HD
+            </button>
+        </section>
+
+        <!-- RIGHT PANEL - PREVIEW -->
+        <section class="preview-section">
+            <div class="qr-frame-outer" id="qr-frame">
+                <div class="preview-loading" id="preview-loader">
+                    <div class="loading-spinner"></div>
+                </div>
+                <!-- Final image drawn with logo and displayed to prevent any canvas issues -->
+                <img id="qr-img" class="rendered-image" alt="QR Code Preview">
+            </div>
+            
+            <div class="logo-indicator">
+                <i class="fa-solid fa-circle-check"></i> Logo `logo.png` terdeteksi di tengah otomatis
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Hidden Rendering Canvas -->
+    <canvas id="qr-canvas"></canvas>
+
+    <!-- Success Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" style="color: var(--gold-luxury);"></i>
+        <span>QR Code berhasil diunduh (HD 2000x2000px)!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const linkInput = document.getElementById('link-input');
+            const colorDarkInput = document.getElementById('color-dark');
+            const colorLightInput = document.getElementById('color-light');
+            const valDark = document.getElementById('val-dark');
+            const valLight = document.getElementById('val-light');
+            const qrCanvas = document.getElementById('qr-canvas');
+            const qrImg = document.getElementById('qr-img');
+            const qrFrame = document.getElementById('qr-frame');
+            const loader = document.getElementById('preview-loader');
+            const downloadBtn = document.getElementById('download-btn');
+            const toast = document.getElementById('toast');
+
+            // Set background color of container dynamic wrapper
+            function updateFrameBg() {
+                qrFrame.style.backgroundColor = colorLightInput.value;
+            }
+
+            // Sync text inputs for hex values
+            colorDarkInput.addEventListener('input', (e) => {
+                valDark.textContent = e.target.value.toUpperCase();
+                generateQRCode();
+            });
+
+            colorLightInput.addEventListener('input', (e) => {
+                valLight.textContent = e.target.value.toUpperCase();
+                updateFrameBg();
+                generateQRCode();
+            });
+
+            linkInput.addEventListener('input', () => {
+                generateQRCode();
+            });
+
+            // Premium Logo Generation Logic
+            function generateQRCode() {
+                loader.classList.add('active');
+                
+                const url = linkInput.value || "https://barcodek-adat.vercel.app/";
+                const darkColor = colorDarkInput.value;
+                const lightColor = colorLightInput.value;
+
+                // 1. Generate core QR Code matrix onto the hidden canvas at high-resolution
+                const size = 1500; // 1500px for excellent print details!
+                
+                QRCode.toCanvas(qrCanvas, url, {
+                    width: size,
+                    margin: 2,
+                    errorCorrectionLevel: 'H', // High recovery level (30%) to withstand logo in center
+                    color: {
+                        dark: darkColor,
+                        light: lightColor
+                    }
+                }, (error) => {
+                    if (error) {
+                        console.error('QR Code Generation Error:', error);
+                        loader.classList.remove('active');
+                        return;
+                    }
+
+                    // 2. Load the brand logo image
+                    const logoImg = new Image();
+                    logoImg.src = './logo.png';
+                    logoImg.onload = () => {
+                        const ctx = qrCanvas.getContext('2d');
+                        
+                        // 3. Draw a premium logo frame in the center
+                        const logoSize = size * 0.22; // 22% of QR size is perfect for Error Correction level 'H'
+                        const logoX = (size - logoSize) / 2;
+                        const logoY = (size - logoSize) / 2;
+
+                        // Create clean white card base behind logo to separate from QR modules
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+                        ctx.shadowBlur = 15;
+                        
+                        // Draw rounded square background card for logo
+                        const radius = logoSize * 0.25;
+                        ctx.beginPath();
+                        ctx.moveTo(logoX + radius, logoY);
+                        ctx.lineTo(logoX + logoSize - radius, logoY);
+                        ctx.quadraticCurveTo(logoX + logoSize, logoY, logoX + logoSize, logoY + radius);
+                        ctx.lineTo(logoX + logoSize, logoY + logoSize - radius);
+                        ctx.quadraticCurveTo(logoX + logoSize, logoY + logoSize, logoX + logoSize - radius, logoY + logoSize);
+                        ctx.lineTo(logoX + radius, logoY + logoSize);
+                        ctx.quadraticCurveTo(logoX, logoY + logoSize, logoX, logoY + logoSize - radius);
+                        ctx.lineTo(logoX, logoY + radius);
+                        ctx.quadraticCurveTo(logoX, logoY, logoX + radius, logoY);
+                        ctx.closePath();
+                        ctx.fill();
+
+                        // Reset shadow properties for logo drawing
+                        ctx.shadowBlur = 0;
+
+                        // Draw a luxury gold outer outline around the logo container card
+                        ctx.strokeStyle = '#C89B3C';
+                        ctx.lineWidth = size * 0.008; // Proportional gold border thickness
+                        ctx.stroke();
+
+                        // 4. Draw the logo image centered inside the rounded frame with inner padding
+                        const pad = logoSize * 0.12; // Premium padding
+                        ctx.drawImage(logoImg, logoX + pad, logoY + pad, logoSize - (pad * 2), logoSize - (pad * 2));
+
+                        // 5. Update preview image
+                        qrImg.src = qrCanvas.toDataURL('image/png');
+                        loader.classList.remove('active');
+                    };
+
+                    logoImg.onerror = () => {
+                        console.warn('Logo image could not be loaded, generating plain QR code instead.');
+                        qrImg.src = qrCanvas.toDataURL('image/png');
+                        loader.classList.remove('active');
+                    };
+                });
+            }
+
+            // Trigger initialization
+            updateFrameBg();
+            setTimeout(generateQRCode, 300); // Elegant short delay for DOM load sync
+
+            // Download Trigger
+            downloadBtn.addEventListener('click', () => {
+                const dataUrl = qrCanvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'barcode_kostum_adat_jambi.png';
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Show success toast
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 4000);
+            });
+        });
+    </script>
+</body>
+</html>
